@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chart</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</head>
+<body> <nav class="navbar navbar-expand-lg " style="background-color:rgb(190, 197, 218)">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><img src="./online-shop-logo-design-vector.jpg" width="100px"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#">Login</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Cart
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-disabled="true">favourites</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
+   
+      <div id="result" class="row" style="padding-left: 60px;">
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+        <div class="col-4"></div>
+    </div>
+
+</body>
+<script>
+
+        let res = new XMLHttpRequest()
+        res.open("get", "https://dummyjson.com/carts")
+        res.send()
+        res.onreadystatechange = () => {
+            if (res.readyState == 4) {
+                if (res.status > 199 && res.status < 300) {
+                    let data = JSON.parse(res.responseText)
+                    // console.log(data.carts[0]);
+                    todo(data)
+                } else {
+                    alert("something wrong")
+                }
+            }
+        }
+        fetch('https://dummyjson.com/carts').then((data) => { return data.json() }).then((data2) => { todo(data2) })
+        function todo(data2) {
+            for (item of data2.carts) {
+                console.log(item);
+                htmlbody = `<div class="shadow m-5" >
+                    <h2 class="bg-secondary text-light text-center">CART NO:${item.id}</h2>
+            <div class="mt-3 ps-3 shadow">
+                <div class="d-flex mt-3">
+                    <img  width="100px" height="100px" src="${item.products[0].thumbnail}">
+                    <div class="ms-4">
+                  <p class="fw-bold ms-2">${item.products[0].title}</p>
+                  <div class="d-flex ">
+                  <p class="fw-bold text-success">${item.products[0].discountPercentage}% off</p>
+                  <p class="fw-medium text-decoration-line-through text-secondary ms-2">Rs${item.products[0].price}</p>
+                  <p class="fw-medium ms-2">Rs:${item.products[0].discountedPrice}</p>
+                  </div>
+                  <button class="btn btn-danger">Buy Now</button>
+           </div>   
+           </div>
+           <div style="position: relative;" >
+            <p style="width:100px" class="fw-bolder border border-black  text-center text-primary">Qty:${item.products[0].quantity}</p>
+            <p style="width:100px" class="fw-bolder  text-center text-danger">${item.products[0].total} Left</p>
+            </div>
+            </div>
+            <div class=" mt-3 ps-3 shadow">
+                <div class="d-flex mt-3">
+                    <img  width="100px" height="100px" src="${item.products[1].thumbnail}">
+                    <div class="ms-4">
+                  <p class="fw-bold ms-2">${item.products[1].title}</p>
+                  <div class="d-flex ">
+                  <p class="fw-bold text-success">${item.products[1].discountPercentage}% off</p>
+                  <p class="fw-medium text-decoration-line-through text-secondary ms-2">Rs${item.products[0].price}</p>
+                  <p class="fw-medium ms-2">Rs:${item.products[1].discountedPrice}</p>
+                  </div>
+                  <button class="btn btn-danger">Buy Now</button>
+           </div>   
+           </div>
+           <div style="position: relative;" >
+            <p style="width:100px" class="fw-bolder border border-black text-center text-primary">Qty:${item.products[1].quantity}</p>
+            <p  style="width:100px" class="fw-bolder  text-center text-danger">${item.products[1].total} Left</p>
+            </div>
+            </div>
+            <div class=" mt-3 ps-3 shadow">
+                <div class="d-flex mt-3">
+                    <img  width="100px" height="100px" src="${item.products[2].thumbnail}">
+                    <div class="ms-4">
+                  <p class="fw-bold ms-2">${item.products[2].title}</p>
+                  <div class="d-flex ">
+                  <p class="fw-bold text-success">${item.products[2].discountPercentage}% off</p>
+                  <p class="fw-medium text-decoration-line-through text-secondary ms-2">Rs${item.products[0].price}</p>
+                  <p class="fw-medium ms-2">Rs:${item.products[2].discountedPrice}</p>
+                  </div>
+                  <button class="btn btn-danger">Buy Now</button>
+           </div>   
+           </div>
+           <div style="position: relative;" >
+            <p style="width:100px" class="fw-bolder border border-black text-center text-primary">Qty:${item.products[2].quantity}</p>
+            <p  style="width:100px" class="fw-bolder  text-center text-danger">${item.products[2].total} Left</p>
+            </div>
+            </div>
+            <div class=" mt-3 ps-3 shadow">
+                <div class="d-flex mt-3">
+                    <img  width="100px" height="100px" src="${item.products[3].thumbnail}">
+                    <div class="ms-4">
+                  <p class="fw-bold ms-2">${item.products[3].title}</p>
+                  <div class="d-flex ">
+                  <p class="fw-bold text-success">${item.products[3].discountPercentage}% off</p>
+                  <p class="fw-medium text-decoration-line-through text-secondary ms-2">Rs${item.products[0].price}</p>
+                  <p class="fw-medium ms-2">Rs:${item.products[3].discountedPrice}</p>
+                  </div>
+                  <button class="btn btn-danger">Buy Now</button>
+           </div>   
+           </div>
+           <div style="position: relative;" >
+            <p style="width:100px" class="fw-bolder border border-black text-center text-primary">Qty:${item.products[3].quantity}</p>
+            <p  style="width:100px" class="fw-bolder  text-center text-danger">${item.products[3].total} Left</p>
+            </div>
+            </div>
+            <div class=" mt-3 ps-3 shadow">
+                <div class="d-flex mt-3">
+                    <img  width="100px" height="100px" src="${item.products[4].thumbnail}">
+                    <div class="ms-4">
+                  <p class="fw-bold ms-2">${item.products[4].title}</p>
+                  <div class="d-flex ">
+                  <p class="fw-bold text-success">${item.products[4].discountPercentage}% off</p>
+                  <p class="fw-medium text-decoration-line-through text-secondary ms-2">Rs${item.products[4].price}</p>
+                  <p class="fw-medium ms-2">Rs:${item.products[4].discountedPrice}</p>
+                  </div>
+                  <button class="btn btn-danger">Buy Now</button>
+           </div>   
+           </div>
+           <div style="position: relative;" >
+            <p style="width:100px" class="fw-bolder border border-black text-center text-primary">Qty:${item.products[4].quantity}</p>
+            <p  style="width:100px" class="fw-bolder  text-center text-danger">${item.products[4].total} Left</p>
+            </div>
+            </div>
+            <div class="shadow p-3 mb-3">
+                <p class="fw-medium">Price Details</p>
+                <p>Price(${item.totalProducts} items) &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp<span class="text-danger fw-medium"> Rs ${item.total}</span></p>
+                <p>Qty:(${item.totalQuantity} items) &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</p>
+                <p class="border border-secondary ps-2 pe-2">Discounted Price: &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp  &nbsp &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<span class="text-success fw-medium">Rs ${item.discountedTotal}</span></p>
+<div class="text-center">
+    <button class="btn btn-danger">Place Order</button>
+  </div>
+                </div>
+            </div>
+        `
+                result.innerHTML += htmlbody
+            }
+        }
+
+
+    </script>
+
+</html>
